@@ -18,6 +18,8 @@ ccflags-y += -Wno-unknown-pragmas
 #ccflags-y += -Wno-unused
 ccflags-y += -Wno-address
 ccflags-y += -Wno-vla -g
+# Same as -Wno-vla-larger-than (SIZE_MAX), which cc-option can't probe
+ccflags-y += $(call cc-option, -Wvla-larger-than=18446744073709551615)
 ccflags-y += -Wno-empty-body
 
 ccflags-y += -I$(src)/include -I$(srctree)/$(src)/include
