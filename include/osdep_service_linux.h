@@ -38,6 +38,28 @@
 #include <asm/uaccess.h>
 #include <asm/byteorder.h>
 #include <asm/atomic.h>
+
+#if (LINUX_VERSION_CODE >= KERNEL_VERSION(7, 2, 0))
+/*
+ * strncpy() has been removed from the kernel in 7.2, provide a local
+ * implementation preserving its exact semantics (zero padding, no
+ * guaranteed NUL termination) for the existing callers.
+ */
+static inline char *rtw_strncpy(char *dest, const char *src, size_t count)
+{
+	char *tmp = dest;
+
+	while (count) {
+		*tmp = *src;
+		if (*tmp)
+			src++;
+		tmp++;
+		count--;
+	}
+	return dest;
+}
+#define strncpy(dest, src, count) rtw_strncpy(dest, src, count)
+#endif
 #include <asm/io.h>
 #if (LINUX_VERSION_CODE < KERNEL_VERSION(2, 6, 26))
 	#include <asm/semaphore.h>
