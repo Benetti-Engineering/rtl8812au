@@ -1198,9 +1198,6 @@ u32 _rtw_down_sema(_sema *sema)
 
 #if LINUX_VERSION_CODE < KERNEL_VERSION(5, 17, 0)
 inline void thread_exit(_completion *comp)
-#else
-inline void kthread_thread_exit(_completion *comp)
-#endif
 {
 #ifdef PLATFORM_LINUX
 #if (LINUX_VERSION_CODE >= KERNEL_VERSION(5, 17, 0)) || (RHEL_RELEASE_CODE >= RHEL_RELEASE_VERSION(9, 0))
@@ -1218,6 +1215,7 @@ inline void kthread_thread_exit(_completion *comp)
 	ExitThread(STATUS_SUCCESS);
 #endif
 }
+#endif
 
 inline void _rtw_init_completion(_completion *comp)
 {

@@ -413,7 +413,14 @@ static __inline void thread_enter(char *name)
 #if LINUX_VERSION_CODE < KERNEL_VERSION(5, 17, 0)
 void thread_exit(_completion *comp);
 #else
-void kthread_thread_exit(_completion *comp);
+/*
+ * Keep it inline so that objtool directly sees the noreturn
+ * kthread_complete_and_exit() call in the callers.
+ */
+static inline void __noreturn kthread_thread_exit(_completion *comp)
+{
+	kthread_complete_and_exit(comp, 0);
+}
 #endif
 void _rtw_init_completion(_completion *comp);
 void _rtw_wait_for_comp_timeout(_completion *comp);
