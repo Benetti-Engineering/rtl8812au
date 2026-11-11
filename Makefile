@@ -18,6 +18,7 @@ ccflags-y += -Wno-unknown-pragmas
 #ccflags-y += -Wno-unused
 ccflags-y += -Wno-address
 ccflags-y += -Wno-vla -g
+ccflags-y += -Wno-empty-body
 
 ccflags-y += -I$(src)/include -I$(srctree)/$(src)/include
 ccflags-y += -I$(src)/hal/phydm -I$(srctree)/$(src)/hal/phydm
